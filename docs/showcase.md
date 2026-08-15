@@ -66,9 +66,8 @@ npm run preview
 
 - 首页：<http://127.0.0.1:4173/>
 - Topics：<http://127.0.0.1:4173/tags/>
-- 代码与 Mermaid 示例：<http://127.0.0.1:4173/articles/markdown-code-mermaid-showcase/>
-- 阅读组件示例：<http://127.0.0.1:4173/articles/markdown-reading-components-showcase/>
-- 标题与目录示例：<http://127.0.0.1:4173/articles/markdown-heading-toc-showcase/>
-- 开发语言高亮示例：<http://127.0.0.1:4173/articles/development-language-highlighting-test/>
+- 自有文章：`http://127.0.0.1:4173/articles/<slug>/`
+
+将 `<slug>` 替换为 `content/posts/` 中自有 Markdown 的文件名（不含 `.md`）。Markdown 组件能力由测试夹具验证，不要求在博客中发布示例文章。
 
 不安装依赖时，也可以直接打开 [`examples/mesh-demo.html`](../examples/mesh-demo.html) 查看独立的单文件首页演示。该文件用于快速体验，不代替 `dist/` 中的完整构建。

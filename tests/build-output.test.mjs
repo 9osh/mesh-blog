@@ -31,15 +31,6 @@ test('article index is complete and newest-first', () => {
     assert.equal(article.index, String(articles.length - position).padStart(3, '0'))
     assert.ok(!Object.hasOwn(article, 'date'), `${article.slug} still exposes the legacy date field`)
   }
-  assert.deepEqual(
-    articles.map(({ slug, index }) => ({ slug, index })),
-    [
-      { slug: 'development-language-highlighting-test', index: '004' },
-      { slug: 'markdown-heading-toc-showcase', index: '003' },
-      { slug: 'markdown-code-mermaid-showcase', index: '002' },
-      { slug: 'markdown-reading-components-showcase', index: '001' },
-    ],
-  )
 })
 
 test('home page includes static cards and the embedded article index', async () => {
@@ -113,11 +104,12 @@ test('every article has rendered content and absolute publication metadata', asy
     assert.ok(html.includes(`content="${article.publishedAt}"`), `${article.slug} Open Graph publication time is missing`)
     assert.ok(html.includes(`<time datetime="${article.publishedAt}">`), `${article.slug} time element is missing`)
     assert.ok(html.includes(`"datePublished":"${article.publishedAt}"`), `${article.slug} structured publication time is missing`)
+    assert.equal((html.match(/data-image-lightbox/g) || []).length, 1, `${article.slug} image lightbox is missing`)
     assert.ok(!html.includes('{{'), `${article.slug} contains an unresolved template token`)
   }
 })
 
-test('article timeline endpoints are rendered as non-interactive pagination markers', async () => {
+test('article timeline endpoints handle single and multiple published articles', async () => {
   const newest = await readOutput(path.join('articles', articles[0].slug, 'index.html'))
   const oldest = await readOutput(path.join('articles', articles.at(-1).slug, 'index.html'))
 
@@ -126,8 +118,12 @@ test('article timeline endpoints are rendered as non-interactive pagination mark
   assert.match(oldest, /<div class="article-endpoint latest-entry"><span>LATEST ENTRY<\/span>[\s\S]*?<\/div>/)
   assert.doesNotMatch(oldest, /class="article-endpoint latest-entry"[^>]*(?:href|tabindex|role=)/)
 
-  assert.ok(newest.includes('class="next-article"'), 'newest entry must retain its Next article link')
-  assert.match(oldest, /<a href="\/articles\/[^"]+\/"><span>← PREVIOUS<\/span><strong>/)
+  if (articles.length === 1) {
+    assert.doesNotMatch(newest, /<span>← PREVIOUS<\/span>|<span>NEXT →<\/span>/)
+  } else {
+    assert.ok(newest.includes('class="next-article"'), 'newest entry must retain its Next article link')
+    assert.match(oldest, /<a href="\/articles\/[^"]+\/"><span>← PREVIOUS<\/span><strong>/)
+  }
 })
 
 test('RSS, sitemap, and robots enumerate published routes', async () => {
@@ -152,78 +148,9 @@ test('RSS, sitemap, and robots enumerate published routes', async () => {
   assert.ok(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`))
 })
 
-test('published article recognizes multi-level, symbolic, and emoji headings in the table of contents', async () => {
-  const article = await readOutput(path.join('articles', 'markdown-heading-toc-showcase', 'index.html'))
-  assert.match(article, /<nav class="article-toc" aria-label="文章目录">/)
 
-  // h2 and h3 enter the TOC with their level classes.
-  assert.match(article, /<li class="toc-h2"><a href="#section-标题级别">标题级别<\/a>/)
-  assert.match(article, /<li class="toc-h3"><a href="#section-二级章节">二级章节<\/a>/)
-
-  // Symbols are stripped from anchor slugs but preserved in labels.
-  assert.match(article, /<a href="#section-符号标题">⚙️ 符号标题<\/a>/)
-  assert.match(article, /<a href="#section-c-rust-实战">C\+\+ &amp; Rust → 实战<\/a>/)
-  assert.match(article, /<a href="#section-50-100-迁移">50% → 100% 迁移<\/a>/)
-
-  // Emoji are stripped from anchor slugs but preserved in labels.
-  assert.match(article, /<a href="#section-emoji-标题">🚀 Emoji 标题<\/a>/)
-  assert.match(article, /<a href="#section-组件化">🧩 组件化<\/a>/)
-  assert.match(article, /<a href="#section-demo">💉 Demo<\/a>/)
-
-  // Duplicate headings keep unique anchors by suffixing -2 and -3.
-  assert.match(article, /<a href="#section-相同章节">相同章节<\/a>/)
-  assert.match(article, /<a href="#section-相同章节-2">相同章节<\/a>/)
-  assert.match(article, /<a href="#section-相同章节-3">相同章节<\/a>/)
-
-  // h4 through h6 still render anchors but never enter the TOC.
-  assert.match(article, /<h4 id="section-四级标题">四级标题<\/h4>/)
-  assert.match(article, /<h5 id="section-五级标题">五级标题<\/h5>/)
-  assert.match(article, /<h6 id="section-六级标题">六级标题<\/h6>/)
-  assert.doesNotMatch(article, /href="#section-四级标题"/)
-  assert.doesNotMatch(article, /href="#section-五级标题"/)
-  assert.doesNotMatch(article, /href="#section-六级标题"/)
-})
-
-test('published language showcase highlights common development languages', async () => {
-  const article = await readOutput(path.join('articles', 'development-language-highlighting-test', 'index.html'))
-  assert.equal((article.match(/data-code-block/g) || []).length, 6)
-  assert.equal((article.match(/data-code-copy(?=[\s>])/g) || []).length, 6)
-  assert.equal((article.match(/class="code-block__language-icon"/g) || []).length, 6)
-  for (const label of ['C', 'C++', 'Go', 'PHP', 'Python', 'Rust']) {
-    assert.ok(article.includes(`<span class="code-block__language-label">${label}</span>`), label)
-  }
-  assert.match(article, /data-language="cpp"/)
-  assert.doesNotMatch(article, /data-language="c\+\+"/)
-})
-
-test('article assets are bundled locally and published code is highlighted at build time', async () => {
-  const showcase = await readOutput(path.join('articles', 'markdown-code-mermaid-showcase', 'index.html'))
-  assert.equal((showcase.match(/data-code-block/g) || []).length, 7)
-  assert.equal((showcase.match(/data-code-copy(?=[\s>])/g) || []).length, 7)
-  assert.equal((showcase.match(/class="code-block__language-icon"/g) || []).length, 7)
-  assert.match(showcase, /<span class="code-block__language-label">Bash<\/span>/)
-  assert.match(showcase, /<span class="code-block__language-label">Python<\/span>/)
-  assert.match(showcase, /<span class="code-block__language-label">Plain text<\/span>/)
-
-  const readingShowcase = await readOutput(path.join('articles', 'markdown-reading-components-showcase', 'index.html'))
-  assert.equal((readingShowcase.match(/data-lightbox-trigger/g) || []).length, 5)
-  assert.equal((readingShowcase.match(/data-image-lightbox/g) || []).length, 1)
-  assert.equal((readingShowcase.match(/class="markdown-figure__number"/g) || []).length, 4)
-  assert.match(readingShowcase, /<img src="\/images\/runtime-architecture\.svg" alt="[^"]+"/)
-  assert.equal((readingShowcase.match(/class="markdown-columns markdown-width-wide"/g) || []).length, 2)
-  assert.equal((readingShowcase.match(/class="markdown-column"/g) || []).length, 4)
-  assert.match(readingShowcase, /<h3 id="column-title-1" class="markdown-column__title">Before<\/h3>/)
-  assert.ok(!readingShowcase.includes('href="#column-title-'), 'Column titles must not enter the article TOC')
+test('article runtime assets are bundled locally', async () => {
   assert.match(await readOutput(path.join('images', 'runtime-architecture.svg')), /<svg[^>]+width="1600" height="900"/)
-
-  const articleOutputs = await Promise.all(
-    articles.map((article) => readOutput(path.join('articles', article.slug, 'index.html'))),
-  )
-  assert.ok(
-    articleOutputs.reduce((count, html) => count + (html.match(/<pre><code class="language-text">/g) || []).length, 0) > 0,
-    'at least one plain-text code block is required',
-  )
-
   assert.ok((await readOutput('article.js')).length > 0)
   const chunks = await readdir(path.join(dist, 'chunks'))
   assert.ok(chunks.some((file) => file.endsWith('.js')), 'a local Mermaid JavaScript chunk is required')
