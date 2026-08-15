@@ -1,10 +1,11 @@
 # 编写博客文章
 
-MESH 从 `content/posts/` 读取 Markdown，构建时校验元数据和扩展语法，再生成静态 HTML。三篇测试文章是可执行示例：
+MESH 从 `content/posts/` 读取 Markdown，构建时校验元数据和扩展语法，再生成静态 HTML。四篇测试文章是可执行示例：
 
 - [`markdown-code-mermaid-showcase.md`](../content/posts/markdown-code-mermaid-showcase.md)：代码高亮、inline code、Mermaid 与失败回退。
 - [`markdown-reading-components-showcase.md`](../content/posts/markdown-reading-components-showcase.md)：表格、Alerts、Figure、FigurePair、Columns 与 Lightbox。
 - [`markdown-heading-toc-showcase.md`](../content/posts/markdown-heading-toc-showcase.md)：多级标题、符号与 emoji 在文章目录中的识别与锚点去重。
+- [`development-language-highlighting-test.md`](../content/posts/development-language-highlighting-test.md)：C、C++、Go、PHP、Python 与 Rust 的构建期语法高亮、语言标签和代码复制。
 
 ## 新建文章
 

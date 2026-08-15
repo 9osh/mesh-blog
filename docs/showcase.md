@@ -69,5 +69,6 @@ npm run preview
 - 代码与 Mermaid 示例：<http://127.0.0.1:4173/articles/markdown-code-mermaid-showcase/>
 - 阅读组件示例：<http://127.0.0.1:4173/articles/markdown-reading-components-showcase/>
 - 标题与目录示例：<http://127.0.0.1:4173/articles/markdown-heading-toc-showcase/>
+- 开发语言高亮示例：<http://127.0.0.1:4173/articles/development-language-highlighting-test/>
 
 不安装依赖时，也可以直接打开 [`examples/mesh-demo.html`](../examples/mesh-demo.html) 查看独立的单文件首页演示。该文件用于快速体验，不代替 `dist/` 中的完整构建。

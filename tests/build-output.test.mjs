@@ -34,6 +34,7 @@ test('article index is complete and newest-first', () => {
   assert.deepEqual(
     articles.map(({ slug, index }) => ({ slug, index })),
     [
+      { slug: 'development-language-highlighting-test', index: '004' },
       { slug: 'markdown-heading-toc-showcase', index: '003' },
       { slug: 'markdown-code-mermaid-showcase', index: '002' },
       { slug: 'markdown-reading-components-showcase', index: '001' },
@@ -181,6 +182,18 @@ test('published article recognizes multi-level, symbolic, and emoji headings in 
   assert.doesNotMatch(article, /href="#section-四级标题"/)
   assert.doesNotMatch(article, /href="#section-五级标题"/)
   assert.doesNotMatch(article, /href="#section-六级标题"/)
+})
+
+test('published language showcase highlights common development languages', async () => {
+  const article = await readOutput(path.join('articles', 'development-language-highlighting-test', 'index.html'))
+  assert.equal((article.match(/data-code-block/g) || []).length, 6)
+  assert.equal((article.match(/data-code-copy(?=[\s>])/g) || []).length, 6)
+  assert.equal((article.match(/class="code-block__language-icon"/g) || []).length, 6)
+  for (const label of ['C', 'C++', 'Go', 'PHP', 'Python', 'Rust']) {
+    assert.ok(article.includes(`<span class="code-block__language-label">${label}</span>`), label)
+  }
+  assert.match(article, /data-language="cpp"/)
+  assert.doesNotMatch(article, /data-language="c\+\+"/)
 })
 
 test('article assets are bundled locally and published code is highlighted at build time', async () => {
