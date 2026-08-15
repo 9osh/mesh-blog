@@ -26,6 +26,10 @@ const languageAliases = new Map([
   ['python', 'python'],
   ['py', 'python'],
   ['go', 'go'],
+  ['c', 'c'],
+  ['cpp', 'cpp'],
+  ['c++', 'cpp'],
+  ['php', 'php'],
   ['rust', 'rust'],
   ['rs', 'rust'],
   ['sql', 'sql'],
@@ -45,12 +49,15 @@ const languageDisplayNames = new Map([
   ['yaml', 'YAML'],
   ['markdown', 'Markdown'],
   ['python', 'Python'],
+  ['c', 'C'],
+  ['cpp', 'C++'],
+  ['php', 'PHP'],
   ['go', 'Go'],
   ['rust', 'Rust'],
   ['sql', 'SQL'],
   ['dockerfile', 'Dockerfile'],
 ])
-const languageIdentifier = /^[A-Za-z][A-Za-z0-9_-]*$/
+const languageIdentifier = /^[A-Za-z][A-Za-z0-9_-]*(?:\+\+)?$/
 const inlineAnnotation = /^\{([^}]*)\}(.*)$/s
 const alertLabels = new Map([
   ['NOTE', 'Note'],
