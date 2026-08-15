@@ -1,9 +1,10 @@
 # 编写博客文章
 
-MESH 从 `content/posts/` 读取 Markdown，构建时校验元数据和扩展语法，再生成静态 HTML。两篇测试文章是可执行示例：
+MESH 从 `content/posts/` 读取 Markdown，构建时校验元数据和扩展语法，再生成静态 HTML。三篇测试文章是可执行示例：
 
 - [`markdown-code-mermaid-showcase.md`](../content/posts/markdown-code-mermaid-showcase.md)：代码高亮、inline code、Mermaid 与失败回退。
 - [`markdown-reading-components-showcase.md`](../content/posts/markdown-reading-components-showcase.md)：表格、Alerts、Figure、FigurePair、Columns 与 Lightbox。
+- [`markdown-heading-toc-showcase.md`](../content/posts/markdown-heading-toc-showcase.md)：多级标题、符号与 emoji 在文章目录中的识别与锚点去重。
 
 ## 新建文章
 
@@ -41,7 +42,17 @@ tags:
 
 ## 标题与目录
 
-普通 Markdown 标题会生成稳定锚点，并进入文章目录。Columns 内部的 `title` 会渲染为局部 `h3`，但不会进入目录。
+文章标题来自 front matter 的 `title`，模板会将它渲染为页面的 `h1`。正文必须从 `##` 开始：`h2` 是一级章节，`h3` 是二级章节，两者会生成稳定锚点并进入文章目录；`h4` 至 `h6` 仍会生成锚点，但不进入目录。正文使用 `#` 会使构建失败。Columns 内部的 `title` 会渲染为局部 `h3`，但不会进入目录。
+
+```markdown
+---
+title: "文章标题"
+---
+
+## 正文一级章节
+
+### 正文二级章节
+```
 
 ## 代码
 
