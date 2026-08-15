@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Shared workspace</title><desc id="desc">Three workers write into one shared workspace, creating implicit coupling.</desc>
+  <rect width="1200" height="800" fill="#d8cfc0"/>
+  <g fill="none" stroke="#655f56" stroke-width="3">
+    <circle cx="220" cy="180" r="74"/><circle cx="600" cy="180" r="74"/><circle cx="980" cy="180" r="74"/>
+    <path d="M220 254v146h380m0-146v146m380-146v146H600"/>
+    <rect x="300" y="400" width="600" height="250" rx="4"/>
+  </g>
+  <g fill="#39352f" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="middle">
+    <text x="220" y="188" font-size="30">WORKER A</text><text x="600" y="188" font-size="30">WORKER B</text><text x="980" y="188" font-size="30">WORKER C</text>
+    <text x="600" y="505" font-size="48">SHARED WORKSPACE</text><text x="600" y="565" font-size="24" letter-spacing="5">IMPLICIT STATE</text>
+  </g>
+</svg>

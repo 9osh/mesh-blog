@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#e9dfcf" />
+    <meta name="description" content="MESH — a minimal Morandi timeline technology journal." />
+    <title>MESH — Technology Notes</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="canonical" href="{{SITE_URL}}/" />
+    <link rel="alternate" type="application/rss+xml" title="MESH RSS" href="{{SITE_URL}}/feed.xml" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="MESH home">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#journal">Journal</a><a href="/tags/">Topics</a><a href="#about">About</a>
+        <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">↗</a>
+      </nav>
+      <button class="menu-button" id="menuButton" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" hidden>
+        <a href="#journal">Journal</a><a href="/tags/">Topics</a><a href="#about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-noise" aria-hidden="true"></div>
+        <div class="hero-orbit orbit-a" aria-hidden="true"></div><div class="hero-orbit orbit-b" aria-hidden="true"></div>
+        <p class="eyebrow"><span>01</span> PERSONAL TECHNOLOGY JOURNAL</p>
+        <div class="hero-title-wrap">
+          <h1>I THINK IN<br /><span class="hero-word" id="heroWord">BUILD.</span></h1>
+          <p class="hero-copy">软件工程 · 网络安全 · Agent Harness · LLM<br />关于系统、攻击面与智能体工程的长期技术笔记。</p>
+        </div>
+        <div class="hero-bottom">
+          <div class="status"><span class="status-dot"></span> UTC+8 / ONLINE</div>
+          <button class="scroll-button" id="exploreButton">Explore journal <span>↓</span></button>
+        </div>
+      </section>
+
+      <section class="journal-section" id="journal">
+        <div class="section-heading">
+          <div><p class="eyebrow"><span>02</span> JOURNAL</p><h2>Latest notes.</h2></div>
+          <div><p id="entryCount">{{ENTRY_COUNT}} entries</p><div class="motion-hint" aria-hidden="true">scroll-driven timeline</div></div>
+        </div>
+
+        <div class="filter-bar" id="topics">
+          <label class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search notes, systems, ideas…" aria-label="Search articles" autocomplete="off" />
+            <button id="clearSearch" aria-label="Clear search" hidden>×</button>
+          </label>
+          <div class="tag-list" id="tagList" aria-label="Filter by tag"></div>
+        </div>
+
+        <div class="timeline" id="timeline" aria-live="polite">{{ARTICLE_CARDS}}</div>
+        <noscript><p class="noscript-note">Search and tag filters require JavaScript. All published notes remain available above.</p></noscript>
+      </section>
+
+      <section class="about" id="about">
+        <p class="eyebrow"><span>03</span> ABOUT</p>
+        <div class="about-grid">
+          <h2>Notes from<br />the edge of<br />systems.</h2>
+          <div class="about-copy">
+            <p>这里不是“教程列表”，而是一条持续增长的工程时间线：记录设计决策、失败路径、实验、复盘，以及我正在学习的东西。</p>
+            <div class="topic-grid">
+              <span>01 / Software Engineering</span><span>02 / Network Security</span>
+              <span>03 / Agent Harness</span><span>04 / LLM Systems</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span></a>
+      <p>Built for long-form technical thinking.</p><p>© 2026</p>
+    </footer>
+    <script id="articleIndex" type="application/json">{{ARTICLE_INDEX}}</script>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Isolated workspace</title><desc id="desc">Each worker writes to an isolated workspace and publishes explicit artifacts.</desc>
+  <rect width="1200" height="800" fill="#d3d7cf"/>
+  <g fill="none" stroke="#586158" stroke-width="3">
+    <circle cx="210" cy="165" r="68"/><circle cx="600" cy="165" r="68"/><circle cx="990" cy="165" r="68"/>
+    <rect x="90" y="315" width="240" height="170" rx="4"/><rect x="480" y="315" width="240" height="170" rx="4"/><rect x="870" y="315" width="240" height="170" rx="4"/>
+    <path d="M210 233v82m390-82v82m390-82v82M210 485v100h780V485M600 485v100"/>
+    <rect x="390" y="585" width="420" height="110" rx="55"/>
+  </g>
+  <g fill="#313a33" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="middle">
+    <text x="210" y="173" font-size="28">A</text><text x="600" y="173" font-size="28">B</text><text x="990" y="173" font-size="28">C</text>
+    <text x="210" y="405" font-size="25">ISOLATED</text><text x="600" y="405" font-size="25">ISOLATED</text><text x="990" y="405" font-size="25">ISOLATED</text>
+    <text x="600" y="650" font-size="30" letter-spacing="4">ARTIFACT EDGES</text>
+  </g>
+</svg>

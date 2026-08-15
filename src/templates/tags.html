@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#e9dfcf" />
+    <meta name="description" content="Browse MESH notes by topic and explore the relationships between tags." />
+    <title>Topics — MESH</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="canonical" href="{{SITE_URL}}/tags/" />
+    <link rel="alternate" type="application/rss+xml" title="MESH RSS" href="{{SITE_URL}}/feed.xml" />
+  </head>
+  <body class="tags-page-body">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="返回 MESH 首页"><span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span></a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="/#journal">Journal</a><a href="/tags/" aria-current="page">Topics</a><a href="/#about">About</a>
+        <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">↗</a>
+      </nav>
+      <button class="menu-button" id="tagsMenuButton" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="mobile-nav" id="tagsMobileNav" aria-label="Mobile navigation" hidden>
+        <a href="/#journal">Journal</a><a href="/tags/" aria-current="page">Topics</a><a href="/#about">About</a>
+      </nav>
+    </header>
+
+    <main class="tags-page" id="tagsPage" data-tags-view="index">
+      <section class="tags-intro" aria-labelledby="tagsTitle">
+        <p class="eyebrow"><span>04</span> KNOWLEDGE INDEX</p>
+        <h1 id="tagsTitle">Topics,<br /><em>mapped.</em></h1>
+        <p class="tags-intro-copy">沿着技术主题浏览笔记。每个标签是一条持续生长的研究路径，而不是一次性的分类。</p>
+        <p class="tags-summary"><b>{{TAG_COUNT}}</b> topics · built from published notes</p>
+        <button class="tags-explore" id="exploreRelations" type="button">
+          <span><b>探索关系</b><small>OPEN RELATION MAP</small></span><i aria-hidden="true">↗</i>
+        </button>
+      </section>
+
+      <section class="tags-map" id="relationMap" aria-labelledby="relationTitle" aria-hidden="true">
+        <div class="tags-map-head">
+          <div><span>RELATION EXPLORER</span><strong id="relationTitle" tabindex="-1">{{DEFAULT_TAG}}</strong></div>
+          <button id="returnToIndex" type="button">← 返回索引</button>
+        </div>
+        <div class="tags-map-stage" id="tagsMapStage" aria-live="polite">
+          <noscript><p class="tags-map-empty">关系探索需要启用 JavaScript；右侧标签索引和文章链接仍然可用。</p></noscript>
+        </div>
+      </section>
+
+      <section class="tags-browser" aria-label="标签索引">
+        <div class="tags-tools">
+          <label><span aria-hidden="true">⌕</span><input id="tagsSearch" type="search" placeholder="Search topics…" aria-label="搜索标签" autocomplete="off" /></label>
+          <span><b id="tagsVisibleCount">{{TAG_COUNT}}</b> / {{TAG_COUNT}}</span>
+        </div>
+        <div class="tags-list" id="tagsList">{{TAG_ROWS}}</div>
+        <p class="tags-empty" id="tagsEmpty" hidden>No topics match this search.</p>
+      </section>
+
+      <aside class="tags-detail" aria-live="polite">
+        <span class="tags-detail-index">SELECTED / <b id="detailArticleCount">{{DEFAULT_ARTICLE_COUNT}}</b></span>
+        <div class="tags-detail-main">
+          <p>Browsing</p>
+          <h2 id="detailTagTitle">{{DEFAULT_TAG}}</h2>
+          <dl><div><dt>Notes</dt><dd id="detailNotes">{{DEFAULT_ARTICLE_COUNT}}</dd></div><div><dt>Relations</dt><dd id="detailRelations">{{DEFAULT_RELATED_COUNT}}</dd></div></dl>
+          <ol id="detailRecentArticles">{{DEFAULT_RECENT_ARTICLES}}</ol>
+        </div>
+        <a id="viewTagArticles" href="{{DEFAULT_TAG_HREF}}">View all notes <span>→</span></a>
+      </aside>
+    </main>
+
+    <script id="tagGraph" type="application/json">{{TAG_GRAPH}}</script>
+    <script type="module" src="/tags.js"></script>
+  </body>
+</html>

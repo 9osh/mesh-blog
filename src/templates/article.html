@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#31312d" />
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:url" content="{{CANONICAL_URL}}" />
+    <meta property="og:site_name" content="MESH" />
+    <meta property="article:published_time" content="{{PUBLISHED_AT}}" />
+    <title>{{TITLE}} — MESH</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="canonical" href="{{CANONICAL_URL}}" />
+    <link rel="alternate" type="application/rss+xml" title="MESH RSS" href="{{SITE_URL}}/feed.xml" />
+    <script type="application/ld+json">{{STRUCTURED_DATA}}</script>
+  </head>
+  <body class="article-page">
+    <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+    <header class="site-header article-header">
+      <a class="brand" href="/" aria-label="返回 MESH 首页">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span>
+      </a>
+      <nav class="desktop-nav" aria-label="文章导航">
+        <a href="/#journal">Journal</a><a href="/tags/">Topics</a><a href="/#about">About</a>
+      </nav>
+      <a class="article-close" href="/" aria-label="关闭文章并返回首页">×</a>
+    </header>
+
+    <main>
+      <article>
+        <header class="article-hero">
+          <div class="article-hero-index">/{{INDEX}}</div>
+          <div class="article-hero-main">
+            <p class="eyebrow"><span>NOTE</span> {{PRIMARY_TAG}}</p>
+            <h1>{{TITLE}}</h1>
+            <p class="article-dek">{{DESCRIPTION}}</p>
+            <div class="article-byline">
+              <div><span>PUBLISHED</span><time datetime="{{PUBLISHED_AT}}">{{DISPLAY_DATE}}</time></div>
+              <div><span>READING TIME</span><strong>{{READING_TIME}}</strong></div>
+              <div class="article-hero-tags"><span>FILED UNDER</span><div>{{TAGS}}</div></div>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-reading-layout">
+          <aside class="article-rail">
+            {{TOC}}
+            <button class="copy-link" id="copyLink" type="button">COPY LINK</button>
+          </aside>
+          <div class="article-prose">
+            {{ARTICLE_BODY}}
+          </div>
+        </div>
+
+        <nav class="article-pagination" aria-label="相邻文章">
+          {{ARTICLE_NAVIGATION}}
+        </nav>
+      </article>
+    </main>
+
+    <footer>
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span></a>
+      <p>Built for long-form technical thinking.</p><p>© 2026</p>
+    </footer>
+    <dialog class="image-lightbox" aria-label="图片预览" data-image-lightbox>
+      <button class="image-lightbox__close" type="button" data-lightbox-close autofocus>关闭</button>
+      <img class="image-lightbox__image" alt="" data-lightbox-image />
+      <p class="image-lightbox__caption" data-lightbox-caption></p>
+    </dialog>
+    <script type="module" src="/article.js"></script>
+  </body>
+</html>
