@@ -1,13 +1,28 @@
 ---
 title: 开发语言语法高亮测试
-description: 用 C、C++、Go、PHP、Python 与 Rust 示例验证博客的构建期语法高亮、语言标签和代码复制功能。
+description: 用 C、C++、Go、PHP、Python 与 Rust 示例验证博客的块级及内联语法高亮、语言标签和代码复制功能。
 publishedAt: "2026-08-16T10:00:00+08:00"
 tags:
   - Programming Languages
   - Testing
 ---
 
-本文用于检查博客对常见开发语言的语法高亮支持。每段示例都包含注释、关键字、类型、函数调用、字符串和数字，方便对照颜色与语言标签。
+本文用于检查博客对常见开发语言的语法高亮支持。块级示例包含注释、关键字、类型、函数调用、字符串和数字，内联示例用于确认语言标记会被移除并保留语法颜色。
+
+## 内联代码
+
+普通内联代码不指定语言，例如 `content/posts/` 和 `npm run build`，应保持默认样式且不生成块级代码容器。
+
+以下片段分别使用对应语言的内联注解。页面中只应显示源码本身，花括号语言标记不应出现在可见文本中：
+
+- C：`{c} const char *message = "hello";`
+- C++：`{c++} const auto total = sum(scores);`
+- Go：`{go} message := fmt.Sprintf("score: %d", 98)`
+- PHP：`{php} $title = strtoupper('mesh');`
+- Python：`{python} visible = [item for item in items if item.ready]`
+- Rust：`{rust} let result: Result<String, Error> = render();`
+
+这些片段应保留在当前段落或列表内，不应生成 `<pre>`、语言标题或复制按钮。
 
 ## C
 
@@ -195,5 +210,7 @@ fn main() {
 - C、C++、Go、PHP、Python、Rust 代码块均显示对应语言标签；
 - 注释、关键字、字符串、数字、类型和函数名具有可辨识的颜色差异；
 - C++ 的 `c++` fence 能正确归一化为 C++；
+- 六种语言的内联代码均显示语法颜色，且 C、C++ 等语言标记不可见；
+- 普通内联代码保持默认样式，不被转换为语言高亮；
 - 每个代码块都显示复制按钮，复制结果不包含语言标签；
 - 在窄屏中，长代码行只在代码块内部横向滚动，页面本身不溢出。
