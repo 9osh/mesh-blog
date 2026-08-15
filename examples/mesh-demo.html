@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#e9dfcf" />
+    <meta name="description" content="MESH — a minimal Morandi timeline technology journal." />
+    <title>MESH — Technology Notes</title>
+    <style>
+:root {
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #302d29; background: #e9dfcf; font-synthesis: none; text-rendering: optimizeLegibility;
+  --ink:#302d29; --paper:#e9dfcf; --khaki:#cdbb9a; --clay:#b29a83; --sage:#9ba595; --mist:#9ba5ad; --cream:#f1eadf; --line:rgba(48,45,41,.18); --muted:rgba(48,45,41,.62);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;min-width:320px;background:var(--paper)} button,input{font:inherit} a{color:inherit;text-decoration:none} button{color:inherit} ::selection{background:var(--ink);color:var(--paper)}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;background:rgba(233,223,207,.9);border-bottom:1px solid rgba(48,45,41,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:750;letter-spacing:-.03em}.brand-mark{width:31px;height:31px;display:grid;place-items:center;border:1px solid var(--ink);border-radius:50%;font:700 10px ui-monospace,SFMono-Regular,Menlo,monospace}.desktop-nav{display:flex;align-items:center;gap:28px;font-size:13px}.desktop-nav a{opacity:.68;transition:opacity .2s ease}.desktop-nav a:hover{opacity:1}.menu-button{display:none;border:0;background:transparent;cursor:pointer;font-size:23px}.mobile-nav{display:none}
+.hero{position:relative;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:120px 4vw 40px;border-bottom:1px solid var(--line)}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 22%,rgba(155,165,149,.50),transparent 25%),radial-gradient(circle at 76% 78%,rgba(178,154,131,.42),transparent 30%),radial-gradient(circle at 22% 70%,rgba(155,165,173,.25),transparent 28%);pointer-events:none}.hero-noise{position:absolute;inset:0;opacity:.12;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E")}
+.hero-orbit{position:absolute;border:1px solid rgba(48,45,41,.13);border-radius:50%;pointer-events:none;animation:orbit 18s linear infinite}.orbit-a{width:42vw;aspect-ratio:1;right:-10vw;top:14vh}.orbit-b{width:26vw;aspect-ratio:1;right:6vw;top:30vh;animation-direction:reverse;animation-duration:13s}.hero-orbit::after{content:"";position:absolute;width:9px;height:9px;background:var(--ink);border-radius:50%;top:49%;left:-5px}@keyframes orbit{to{transform:rotate(360deg)}}
+.eyebrow{position:relative;margin:0;display:flex;gap:14px;align-items:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase}.eyebrow span{opacity:.45}.hero-title-wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.9fr) minmax(280px,.65fr);gap:5vw;align-items:end}.hero h1{margin:0;font-size:clamp(64px,10.8vw,168px);line-height:.78;letter-spacing:-.075em;font-weight:700}.hero-word{display:inline-block;min-width:7.2ch;color:#6f7169}.hero-word-enter{animation:word-in .7s cubic-bezier(.16,1,.3,1)}@keyframes word-in{from{opacity:0;transform:translateY(24px);filter:blur(7px)}to{opacity:1;transform:none;filter:none}}.hero-copy{margin:0 0 6px;font-size:clamp(14px,1.25vw,18px);line-height:1.65;color:var(--muted)}
+.hero-bottom{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:end;font-size:11px;letter-spacing:.08em;text-transform:uppercase}.status{display:flex;align-items:center;gap:9px}.status-dot{width:7px;height:7px;border-radius:50%;background:#667561;box-shadow:0 0 0 5px rgba(102,117,97,.1)}.scroll-button{display:inline-flex;align-items:center;gap:10px;border:0;background:none;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;font-size:11px;padding:8px 0}
+.journal-section{padding:112px 4vw 140px}.section-heading{display:flex;justify-content:space-between;align-items:end;padding-bottom:46px;border-bottom:1px solid var(--line)}.section-heading h2,.about h2{margin:18px 0 0;font-size:clamp(54px,7vw,110px);line-height:.9;letter-spacing:-.065em;font-weight:650}.section-heading>p{margin:0;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.filter-bar{position:sticky;top:72px;z-index:20;display:grid;grid-template-columns:minmax(260px,.7fr) 1.3fr;align-items:center;gap:28px;margin:0 -4vw;padding:18px 4vw;background:rgba(233,223,207,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}.search-field{min-height:45px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(48,45,41,.36)}.search-field:focus-within{border-color:var(--ink)}.search-field input{width:100%;border:0;outline:none;background:transparent;color:var(--ink);font-size:14px;-webkit-appearance:none;appearance:none}.search-field input::placeholder{color:rgba(48,45,41,.45)}.search-field button{border:0;background:none;cursor:pointer;padding:6px}.tag-list{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.tag-list::-webkit-scrollbar{display:none}.tag{flex:none;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.16);padding:9px 13px;font-size:11px;cursor:pointer;transition:.2s ease}.tag:hover,.tag.active{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.timeline{position:relative;padding-top:34px}.timeline::before{content:"";position:absolute;top:0;bottom:0;left:20.2%;width:1px;background:var(--line)}.timeline-entry{display:grid;grid-template-columns:20.2% 1fr;min-height:260px}.timeline-date{position:relative;padding:40px 34px 0 0;text-align:right;font-size:10px;letter-spacing:.08em;color:var(--muted)}.timeline-dot{position:absolute;z-index:2;right:-4px;top:44px;width:9px;height:9px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}.article-card{position:relative;display:grid;grid-template-columns:64px 1fr 28px;gap:24px;padding:34px 18px 42px 40px;border-bottom:1px solid var(--line);transition:background .25s ease}.article-card:hover{background:rgba(241,234,223,.48)}.article-number{padding-top:9px;font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(48,45,41,.43)}.article-main h3{max-width:950px;margin:0;font-size:clamp(30px,4vw,58px);line-height:.98;letter-spacing:-.045em;font-weight:580}.article-main>p{max-width:760px;margin:22px 0 30px;font-size:14px;line-height:1.65;color:var(--muted)}.article-meta{display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em}.article-tags{display:flex;flex-wrap:wrap;gap:6px}.article-tags span{border:1px solid var(--line);border-radius:999px;padding:6px 9px}.article-arrow{margin-top:8px;font-size:22px;transition:transform .2s ease}.article-card:hover .article-arrow{transform:translate(4px,-4px)}.empty-state{margin-left:20.2%;min-height:300px;display:grid;place-items:center;align-content:center;gap:10px;border-bottom:1px solid var(--line)}.empty-state p{color:var(--muted)}.empty-state button{border:1px solid var(--ink);background:transparent;border-radius:999px;padding:9px 14px;cursor:pointer}
+.about{padding:120px 4vw 140px;background:#31312d;color:#e7ded0}.about .eyebrow{color:rgba(231,222,208,.65)}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:7vw;margin-top:48px;align-items:end}.about h2{margin:0}.about-copy>p{max-width:620px;margin:0 0 70px;font-size:clamp(17px,1.6vw,23px);line-height:1.65;color:rgba(231,222,208,.72)}.topic-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(231,222,208,.2)}.topic-grid span{padding:16px 12px 16px 0;border-bottom:1px solid rgba(231,222,208,.2);font-size:11px;color:rgba(231,222,208,.68)}
+footer{min-height:150px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:32px 4vw;background:#31312d;color:rgba(231,222,208,.62);border-top:1px solid rgba(231,222,208,.16);font-size:11px;text-transform:uppercase;letter-spacing:.06em}footer .brand{color:#e7ded0}footer .brand-mark{border-color:rgba(231,222,208,.6)}
+.timeline{--timeline-progress:0;--timeline-axis:20.2%}
+.timeline::before,.timeline::after{left:var(--timeline-axis)}
+.timeline::after{content:"";position:absolute;z-index:1;top:0;bottom:0;width:1px;background:var(--ink);transform:scaleY(var(--timeline-progress));transform-origin:top;will-change:transform;pointer-events:none}
+.timeline-dot{right:-5px;transition:transform .45s cubic-bezier(.16,1,.3,1),background-color .3s ease,box-shadow .3s ease}
+.timeline-entry.is-complete .timeline-dot{background:var(--ink)}
+.timeline-entry.is-completing .timeline-dot{animation:timeline-dot-complete .52s cubic-bezier(.16,1,.3,1)}
+.timeline-entry.is-uncompleting .timeline-dot{animation:timeline-dot-uncomplete .42s cubic-bezier(.16,1,.3,1)}
+@keyframes timeline-dot-complete{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(48,45,41,0)}55%{transform:scale(1.55);box-shadow:0 0 0 7px rgba(48,45,41,.10)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(48,45,41,0)}}
+@keyframes timeline-dot-uncomplete{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(48,45,41,0)}55%{transform:scale(1.35);box-shadow:0 0 0 5px rgba(48,45,41,.07)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(48,45,41,0)}}
+@media(max-width:900px){.hero-title-wrap{grid-template-columns:1fr}.hero h1{font-size:clamp(66px,15vw,120px)}.hero-copy{max-width:560px}.filter-bar{grid-template-columns:1fr;gap:8px}.timeline::before{left:130px}.timeline-entry{grid-template-columns:130px 1fr}.timeline-date{padding-right:24px}.article-card{grid-template-columns:42px 1fr 24px;padding-left:28px}.about-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.site-header{height:64px;padding:0 20px}.desktop-nav{display:none}.menu-button{display:grid;place-items:center}.mobile-nav{position:absolute;left:12px;right:12px;top:70px;padding:10px;background:#eee6da;border:1px solid var(--line);box-shadow:0 16px 50px rgba(48,45,41,.13)}.mobile-nav:not([hidden]){display:grid}.mobile-nav a{padding:15px 12px;border-bottom:1px solid var(--line);font-size:14px}.mobile-nav a:last-child{border-bottom:0}.hero{min-height:820px;padding:104px 20px 28px}.hero h1{font-size:clamp(58px,19vw,88px);line-height:.83}.hero-word{min-width:0}.hero-copy{font-size:14px}.orbit-a{width:90vw;right:-40vw;top:17vh}.orbit-b{width:60vw;right:-5vw;top:30vh}.hero-bottom{align-items:end;gap:20px}.status{max-width:120px;line-height:1.5}.scroll-button{text-align:right}.journal-section{padding:82px 20px 100px}.section-heading{padding-bottom:34px}.section-heading h2{font-size:54px}.section-heading>p{display:none}.filter-bar{top:64px;margin:0 -20px;padding:12px 20px 14px}.search-field{min-height:42px}.timeline{padding-top:14px}.timeline::before{left:7px}.timeline-entry{display:block;min-height:0;padding-left:22px}.timeline-date{text-align:left;padding:24px 0 12px 18px}.timeline-dot{left:-19px;right:auto;top:27px}.article-card{grid-template-columns:1fr 24px;gap:16px;padding:0 0 34px 18px}.article-number{display:none}.article-main h3{font-size:34px;line-height:1.02}.article-main>p{margin:16px 0 24px}.article-meta{align-items:end}.article-arrow{grid-column:2;grid-row:1}.empty-state{margin-left:22px}.about{padding:82px 20px 90px}.about-grid{margin-top:34px;gap:50px}.about h2{font-size:58px}.about-copy>p{margin-bottom:45px}.topic-grid{grid-template-columns:1fr}footer{align-items:flex-start;flex-direction:column;padding:34px 20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+@media(max-width:900px){.timeline{--timeline-axis:130px}}
+@media(max-width:640px){.timeline{--timeline-axis:7px}}
+@media(prefers-reduced-motion:reduce){.timeline-entry.is-completing .timeline-dot,.timeline-entry.is-uncompleting .timeline-dot{animation:none!important}}
+@media(prefers-reduced-transparency:reduce){.site-header,.filter-bar{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+</style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="MESH home">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#journal">Journal</a><a href="#topics">Topics</a><a href="#about">About</a>
+        <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">↗</a>
+      </nav>
+      <button class="menu-button" id="menuButton" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" hidden>
+        <a href="#journal">Journal</a><a href="#topics">Topics</a><a href="#about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-noise" aria-hidden="true"></div>
+        <div class="hero-orbit orbit-a" aria-hidden="true"></div><div class="hero-orbit orbit-b" aria-hidden="true"></div>
+        <p class="eyebrow"><span>01</span> PERSONAL TECHNOLOGY JOURNAL</p>
+        <div class="hero-title-wrap">
+          <h1>I THINK IN<br /><span class="hero-word" id="heroWord">BUILD.</span></h1>
+          <p class="hero-copy">软件工程 · 网络安全 · Agent Harness · LLM<br />关于系统、攻击面与智能体工程的长期技术笔记。</p>
+        </div>
+        <div class="hero-bottom">
+          <div class="status"><span class="status-dot"></span> UTC+8 / ONLINE</div>
+          <button class="scroll-button" id="exploreButton">Explore journal <span>↓</span></button>
+        </div>
+      </section>
+
+      <section class="journal-section" id="journal">
+        <div class="section-heading">
+          <div><p class="eyebrow"><span>02</span> JOURNAL</p><h2>Latest notes.</h2></div>
+          <p id="entryCount">02 entries</p>
+        </div>
+
+        <div class="filter-bar" id="topics">
+          <label class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search notes, systems, ideas…" aria-label="Search articles" autocomplete="off" />
+            <button id="clearSearch" aria-label="Clear search" hidden>×</button>
+          </label>
+          <div class="tag-list" id="tagList" aria-label="Filter by tag"></div>
+        </div>
+
+        <div class="timeline" id="timeline" aria-live="polite"></div>
+      </section>
+
+      <section class="about" id="about">
+        <p class="eyebrow"><span>03</span> ABOUT</p>
+        <div class="about-grid">
+          <h2>Notes from<br />the edge of<br />systems.</h2>
+          <div class="about-copy">
+            <p>这里不是“教程列表”，而是一条持续增长的工程时间线：记录设计决策、失败路径、实验、复盘，以及我正在学习的东西。</p>
+            <div class="topic-grid">
+              <span>01 / Software Engineering</span><span>02 / Network Security</span>
+              <span>03 / Agent Harness</span><span>04 / LLM Systems</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">&gt;_</span><span>MESH</span></a>
+      <p>Built for long-form technical thinking.</p><p>© 2026</p>
+    </footer>
+    <script type="module">
+"use strict";
+const articles = [
+    { publishedAt: '2026-08-14T12:01:00+08:00', displayDate: 'AUG 14, 2026', title: 'Markdown Code and Mermaid Rendering Showcase', description: 'A test article covering build-time syntax highlighting, inline code, Mermaid rendering, fallback behavior, and mobile overflow.', tags: ['Web Engineering', 'Testing'], readingTime: '2 min' },
+    { publishedAt: '2026-08-14T12:00:00+08:00', displayDate: 'AUG 14, 2026', title: 'Markdown Reading Components Showcase', description: 'A test article covering reading widths, code diffs, tables, alerts, figures, columns, and the progressive lightbox.', tags: ['Web Engineering', 'Testing'], readingTime: '4 min' },
+].sort((left, right) => Date.parse(right.publishedAt) - Date.parse(left.publishedAt))
+  .map((article, position, sorted) => ({ ...article, index: String(sorted.length - position).padStart(3, '0') }));
+const tags = ['All', 'Web Engineering', 'Testing'];
+const heroWords = ['BUILD.', 'BREAK.', 'ORCHESTRATE.', 'LEARN.'];
+let activeTag = 'All';
+let query = '';
+const timeline = document.querySelector('#timeline');
+const tagList = document.querySelector('#tagList');
+const searchInput = document.querySelector('#searchInput');
+const clearSearch = document.querySelector('#clearSearch');
+const entryCount = document.querySelector('#entryCount');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function escapeHtml(value) {
+    return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
+}
+function renderTags() {
+    tagList.innerHTML = tags.map((tag) => `<button class="tag${activeTag === tag ? ' active' : ''}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>`).join('');
+    tagList.querySelectorAll('.tag').forEach((button) => {
+        button.addEventListener('click', () => { activeTag = button.dataset.tag || 'All'; renderTags(); renderTimeline(); });
+    });
+}
+function renderTimeline() {
+    const needle = query.trim().toLowerCase();
+    const filtered = articles.filter((article) => {
+        const matchesTag = activeTag === 'All' || article.tags.includes(activeTag);
+        const haystack = `${article.title} ${article.description} ${article.tags.join(' ')}`.toLowerCase();
+        return matchesTag && (!needle || haystack.includes(needle));
+    });
+    entryCount.textContent = `${String(filtered.length).padStart(2, '0')} entries`;
+    if (!filtered.length) {
+        timeline.innerHTML = `<div class="empty-state"><p>No notes match this filter.</p><button id="resetFilters">Reset filters</button></div>`;
+        document.querySelector('#resetFilters')?.addEventListener('click', () => {
+            activeTag = 'All';
+            query = '';
+            searchInput.value = '';
+            clearSearch.hidden = true;
+            renderTags();
+            renderTimeline();
+        });
+        setupTimelineMotion();
+        return;
+    }
+    timeline.innerHTML = filtered.map((article) => `
+    <article class="timeline-entry">
+      <div class="timeline-date"><span>${escapeHtml(article.displayDate)}</span><span class="timeline-dot"></span></div>
+      <a class="article-card" href="#article-${article.index}" id="article-${article.index}">
+        <div class="article-number">/${article.index}</div>
+        <div class="article-main">
+          <h3>${escapeHtml(article.title)}</h3>
+          <p>${escapeHtml(article.description)}</p>
+          <div class="article-meta">
+            <div class="article-tags">${article.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join('')}</div>
+            <span>${escapeHtml(article.readingTime)}</span>
+          </div>
+        </div>
+        <span class="article-arrow" aria-hidden="true">↗</span>
+      </a>
+    </article>`).join('');
+    setupTimelineMotion();
+}
+let motionEntries = [];
+let motionFrame = 0;
+let pendingMotionAnimation = true;
+let motionListenersInstalled = false;
+const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+function scheduleTimelineMotion(animateTransitions = true) {
+    pendingMotionAnimation = pendingMotionAnimation && animateTransitions;
+    if (motionFrame) return;
+    motionFrame = window.requestAnimationFrame(() => {
+        const shouldAnimate = pendingMotionAnimation;
+        motionFrame = 0;
+        pendingMotionAnimation = true;
+        updateTimelineMotion(shouldAnimate);
+    });
+}
+function updateTimelineMotion(animateTransitions) {
+    if (!motionEntries.length) {
+        timeline.style.setProperty('--timeline-progress', '0');
+        return;
+    }
+    const viewportHeight = window.innerHeight || 800;
+    const timelineRect = timeline.getBoundingClientRect();
+    const progressRange = Math.max(1, timelineRect.height - viewportHeight * 0.58);
+    const progress = clamp((viewportHeight * 0.42 - timelineRect.top) / progressRange);
+    const progressEnd = timelineRect.top + timelineRect.height * progress;
+    timeline.style.setProperty('--timeline-progress', String(progress));
+    motionEntries.forEach((entry) => {
+        const dot = entry.querySelector('.timeline-dot');
+        if (!dot) return;
+        const dotRect = dot.getBoundingClientRect();
+        const isComplete = progressEnd >= dotRect.top + dotRect.height * 0.5;
+        const wasComplete = entry.classList.contains('is-complete');
+        if (isComplete === wasComplete) return;
+        entry.classList.toggle('is-complete', isComplete);
+        entry.classList.remove('is-completing', 'is-uncompleting');
+        if (animateTransitions && !reduceMotion) {
+            entry.classList.add(isComplete ? 'is-completing' : 'is-uncompleting');
+        }
+    });
+}
+function clearTimelineDotAnimation(event) {
+    if (!(event.target instanceof Element)) return;
+    const entry = event.target.closest('.timeline-entry');
+    if (event.animationName === 'timeline-dot-complete') entry?.classList.remove('is-completing');
+    if (event.animationName === 'timeline-dot-uncomplete') entry?.classList.remove('is-uncompleting');
+}
+function setupTimelineMotion() {
+    if (motionFrame) {
+        window.cancelAnimationFrame(motionFrame);
+        motionFrame = 0;
+    }
+    pendingMotionAnimation = true;
+    motionEntries = Array.from(timeline.querySelectorAll('.timeline-entry'));
+    if (!motionListenersInstalled) {
+        motionListenersInstalled = true;
+        window.addEventListener('scroll', () => scheduleTimelineMotion(true), { passive: true });
+        window.addEventListener('resize', () => scheduleTimelineMotion(false));
+        timeline.addEventListener('animationend', clearTimelineDotAnimation);
+        timeline.addEventListener('animationcancel', clearTimelineDotAnimation);
+    }
+    updateTimelineMotion(false);
+}
+searchInput.addEventListener('input', () => { query = searchInput.value; clearSearch.hidden = !query; renderTimeline(); });
+clearSearch.addEventListener('click', () => { query = ''; searchInput.value = ''; clearSearch.hidden = true; searchInput.focus(); renderTimeline(); });
+document.querySelector('#exploreButton').addEventListener('click', () => {
+    document.querySelector('#journal')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+});
+const menuButton = document.querySelector('#menuButton');
+const mobileNav = document.querySelector('#mobileNav');
+menuButton.addEventListener('click', () => {
+    const open = mobileNav.hidden;
+    mobileNav.hidden = !open;
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.textContent = open ? '×' : '☰';
+});
+mobileNav.querySelectorAll('a').forEach((anchor) => anchor.addEventListener('click', () => {
+    mobileNav.hidden = true;
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.textContent = '☰';
+}));
+if (!reduceMotion) {
+    let wordIndex = 0;
+    const heroWord = document.querySelector('#heroWord');
+    window.setInterval(() => {
+        wordIndex = (wordIndex + 1) % heroWords.length;
+        heroWord.classList.remove('hero-word-enter');
+        void heroWord.offsetWidth;
+        heroWord.textContent = heroWords[wordIndex];
+        heroWord.classList.add('hero-word-enter');
+    }, 1600);
+}
+renderTags();
+renderTimeline();
+
+</script>
+  </body>
+</html>
