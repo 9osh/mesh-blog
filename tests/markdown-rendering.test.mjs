@@ -142,6 +142,13 @@ test('Mermaid policy rejects inaccessible, unsupported, and configurable input',
   assertRenderFailure('```mermaid\n\n```', 'Mermaid source must not be empty')
 })
 
+test('article body rejects h1 headings reserved for the template title', () => {
+  assertRenderFailure(
+    '# Duplicate article title',
+    'Markdown h1 headings are not allowed; use front matter title for the article title and ## for top-level sections',
+  )
+})
+
 test('heading IDs deduplicate per render and renderer state resets between articles', () => {
   const first = render('## Same\n\n### Same')
   assert.deepEqual(first.headings.map(({ id }) => id), ['section-same', 'section-same-2'])

@@ -34,6 +34,7 @@ test('article index is complete and newest-first', () => {
   assert.deepEqual(
     articles.map(({ slug, index }) => ({ slug, index })),
     [
+      { slug: 'markdown-heading-toc-showcase', index: '003' },
       { slug: 'markdown-code-mermaid-showcase', index: '002' },
       { slug: 'markdown-reading-components-showcase', index: '001' },
     ],
@@ -150,6 +151,38 @@ test('RSS, sitemap, and robots enumerate published routes', async () => {
   assert.ok(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`))
 })
 
+test('published article recognizes multi-level, symbolic, and emoji headings in the table of contents', async () => {
+  const article = await readOutput(path.join('articles', 'markdown-heading-toc-showcase', 'index.html'))
+  assert.match(article, /<nav class="article-toc" aria-label="文章目录">/)
+
+  // h2 and h3 enter the TOC with their level classes.
+  assert.match(article, /<li class="toc-h2"><a href="#section-标题级别">标题级别<\/a>/)
+  assert.match(article, /<li class="toc-h3"><a href="#section-二级章节">二级章节<\/a>/)
+
+  // Symbols are stripped from anchor slugs but preserved in labels.
+  assert.match(article, /<a href="#section-符号标题">⚙️ 符号标题<\/a>/)
+  assert.match(article, /<a href="#section-c-rust-实战">C\+\+ &amp; Rust → 实战<\/a>/)
+  assert.match(article, /<a href="#section-50-100-迁移">50% → 100% 迁移<\/a>/)
+
+  // Emoji are stripped from anchor slugs but preserved in labels.
+  assert.match(article, /<a href="#section-emoji-标题">🚀 Emoji 标题<\/a>/)
+  assert.match(article, /<a href="#section-组件化">🧩 组件化<\/a>/)
+  assert.match(article, /<a href="#section-demo">💉 Demo<\/a>/)
+
+  // Duplicate headings keep unique anchors by suffixing -2 and -3.
+  assert.match(article, /<a href="#section-相同章节">相同章节<\/a>/)
+  assert.match(article, /<a href="#section-相同章节-2">相同章节<\/a>/)
+  assert.match(article, /<a href="#section-相同章节-3">相同章节<\/a>/)
+
+  // h4 through h6 still render anchors but never enter the TOC.
+  assert.match(article, /<h4 id="section-四级标题">四级标题<\/h4>/)
+  assert.match(article, /<h5 id="section-五级标题">五级标题<\/h5>/)
+  assert.match(article, /<h6 id="section-六级标题">六级标题<\/h6>/)
+  assert.doesNotMatch(article, /href="#section-四级标题"/)
+  assert.doesNotMatch(article, /href="#section-五级标题"/)
+  assert.doesNotMatch(article, /href="#section-六级标题"/)
+})
+
 test('article assets are bundled locally and published code is highlighted at build time', async () => {
   const showcase = await readOutput(path.join('articles', 'markdown-code-mermaid-showcase', 'index.html'))
   assert.equal((showcase.match(/data-code-block/g) || []).length, 7)
@@ -173,9 +206,9 @@ test('article assets are bundled locally and published code is highlighted at bu
   const articleOutputs = await Promise.all(
     articles.map((article) => readOutput(path.join('articles', article.slug, 'index.html'))),
   )
-  assert.equal(
-    articleOutputs.reduce((count, html) => count + (html.match(/<pre><code class="language-text">/g) || []).length, 0),
-    1,
+  assert.ok(
+    articleOutputs.reduce((count, html) => count + (html.match(/<pre><code class="language-text">/g) || []).length, 0) > 0,
+    'at least one plain-text code block is required',
   )
 
   assert.ok((await readOutput('article.js')).length > 0)

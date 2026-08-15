@@ -479,6 +479,9 @@ export async function createMarkdownRenderer(root) {
   }
 
   md.renderer.rules.heading_open = (tokens, index, options, env, self) => {
+    if (tokens[index].tag === 'h1') {
+      throw new Error('Markdown h1 headings are not allowed; use front matter title for the article title and ## for top-level sections')
+    }
     const inline = tokens[index + 1]
     const label = inline?.content || 'Section'
     const base = headingSlug(label)
