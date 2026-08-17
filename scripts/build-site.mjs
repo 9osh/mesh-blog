@@ -231,7 +231,7 @@ function fillTemplate(post, body, headings, previous, next) {
     '{{TAGS}}': post.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join(''),
     '{{PRIMARY_TAG}}': escapeHtml(post.tags[0]),
     '{{ARTICLE_BODY}}': body,
-    '{{TOC}}': renderToc([{ level: 'h1', label: post.title, id: 'article-title' }, ...headings]),
+    '{{TOC}}': renderToc(headings),
     '{{ARTICLE_NAVIGATION}}': navigation,
     '{{STRUCTURED_DATA}}': structuredData,
     '{{CANONICAL_URL}}': escapeHtml(canonicalUrl),
