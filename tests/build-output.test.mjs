@@ -97,7 +97,7 @@ test('every article has rendered content and absolute publication metadata', asy
   for (const article of articles) {
     const html = await readOutput(path.join('articles', article.slug, 'index.html'))
     const canonicalUrl = `${siteUrl}${article.href}`
-    assert.ok(html.includes(`<h1>${article.title}</h1>`), `${article.slug} title is missing`)
+    assert.ok(html.includes(`<h1 id="article-title">${article.title}</h1>`), `${article.slug} title is missing`)
     assert.ok(html.includes('class="article-prose"'), `${article.slug} prose is missing`)
     assert.ok(html.includes(`rel="canonical" href="${canonicalUrl}"`), `${article.slug} canonical URL is missing`)
     assert.ok(html.includes(`"url":"${canonicalUrl}"`), `${article.slug} structured URL is missing`)
@@ -107,6 +107,21 @@ test('every article has rendered content and absolute publication metadata', asy
     assert.equal((html.match(/data-image-lightbox/g) || []).length, 1, `${article.slug} image lightbox is missing`)
     assert.ok(!html.includes('{{'), `${article.slug} contains an unresolved template token`)
   }
+})
+
+test('article table of contents includes h1 through h6 in document order', async () => {
+  const html = await readOutput(path.join('articles', 'markdown-heading-toc-showcase', 'index.html'))
+  const entries = [...html.matchAll(/<li class="toc-(h[1-6])"><a href="#([^"]+)">([^<]+)<\/a><\/li>/g)]
+    .map(([, level, id, label]) => ({ level, id, label }))
+
+  assert.deepEqual(entries.slice(0, 6), [
+    { level: 'h1', id: 'article-title', label: 'Markdown Heading and TOC Showcase' },
+    { level: 'h2', id: 'section-标题级别', label: '标题级别' },
+    { level: 'h3', id: 'section-二级章节', label: '二级章节' },
+    { level: 'h4', id: 'section-四级标题', label: '四级标题' },
+    { level: 'h5', id: 'section-五级标题', label: '五级标题' },
+    { level: 'h6', id: 'section-六级标题', label: '六级标题' },
+  ])
 })
 
 test('article timeline endpoints handle single and multiple published articles', async () => {

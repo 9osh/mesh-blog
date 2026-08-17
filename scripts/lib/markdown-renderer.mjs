@@ -496,7 +496,7 @@ export async function createMarkdownRenderer(root) {
     env.headingOccurrences.set(base, count)
     const id = `section-${base}${count > 1 ? `-${count}` : ''}`
     tokens[index].attrSet('id', id)
-    if (tokens[index].tag === 'h2' || tokens[index].tag === 'h3') env.headings.push({ level: tokens[index].tag, label, id })
+    env.headings.push({ level: tokens[index].tag, label, id })
     return defaultHeadingOpen(tokens, index, options, env, self)
   }
 

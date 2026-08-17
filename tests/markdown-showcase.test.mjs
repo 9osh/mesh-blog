@@ -25,6 +25,9 @@ test('showcase fixture covers heading anchors and table-of-contents metadata', (
       { level: 'h2', label: '相同章节', id: 'section-相同章节' },
       { level: 'h2', label: '相同章节', id: 'section-相同章节-2' },
       { level: 'h2', label: '相同章节', id: 'section-相同章节-3' },
+      { level: 'h4', label: '四级标题', id: 'section-四级标题' },
+      { level: 'h5', label: '五级标题', id: 'section-五级标题' },
+      { level: 'h6', label: '六级标题', id: 'section-六级标题' },
     ],
   )
   assert.match(rendered.html, /<h4 id="section-四级标题">四级标题<\/h4>/)
